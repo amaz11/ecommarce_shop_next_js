@@ -34,13 +34,20 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Signin() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const postData = {
       email: data.get("email"),
       password: data.get("password"),
+    };
+    const response = await fetch("http://localhost:8000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postData),
     });
+    const dataJson = await response.json();
+    console.log(dataJson);
   };
 
   return (
