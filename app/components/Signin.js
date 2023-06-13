@@ -41,13 +41,21 @@ export default function Signin() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    const response = await fetch("http://localhost:8000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData),
-    });
-    const dataJson = await response.json();
-    console.log(dataJson);
+    try {
+      const response = await fetch("http://localhost:8000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+      const dataJson = await response.json();
+      document.cookie = `access_toke=bearer ${dataJson?.authorisation?.token}`;
+      let x = document.cookie;
+      let cookieArray = x.split("access_toke=bearer")[1];
+
+      console.log(cookieArray);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
